@@ -18,7 +18,7 @@ func get_player_id() -> int:
 
 
 func get_id() -> int:
-	return int(name)
+	return int(str(name))
 
 
 func get_player() -> Player:

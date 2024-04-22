@@ -52,8 +52,8 @@ func remove_player_by_id(player_id: int) -> void:
 	player_left.emit(player)
 
 
-func get_blobs() -> Array[Blob]:
-	return get_blobs_parent().get_children() as Array[Blob]
+func get_blobs() -> Array:
+	return get_blobs_parent().get_children() as Array
 
 
 func get_blob_by_id(blob_id: int) -> Blob:
