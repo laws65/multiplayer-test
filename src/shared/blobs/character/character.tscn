@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://nux8qtt0bj2h"]
+
+[ext_resource type="Script" path="res://src/shared/scripts/blob.gd" id="1_5tb0t"]
+
+[node name="Character" type="CharacterBody2D"]
+script = ExtResource("1_5tb0t")

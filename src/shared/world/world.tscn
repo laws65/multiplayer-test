@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://pcn7gkjjhguy"]
+
+[ext_resource type="Script" path="res://src/shared/world/world.gd" id="1_s6g4f"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_s6g4f")
+
+[node name="Blobs" type="Node2D" parent="."]

@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://cptwsywagboew"]
+
+[ext_resource type="PackedScene" uid="uid://pcn7gkjjhguy" path="res://src/shared/world/world.tscn" id="1_jdffb"]
+[ext_resource type="PackedScene" uid="uid://c538d5hdrs0h0" path="res://src/shared/ui/intro.tscn" id="2_plji0"]
+[ext_resource type="Script" path="res://src/shared/ui/playerlist.gd" id="3_musnn"]
+
+[node name="Main" type="Node"]
+
+[node name="World" parent="." instance=ExtResource("1_jdffb")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Intro" parent="CanvasLayer" instance=ExtResource("2_plji0")]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerList" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 100.0
+offset_right = 445.0
+offset_bottom = 559.0
+theme_override_font_sizes/font_size = 26
+script = ExtResource("3_musnn")
+
+[node name="Client" type="Label" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 0
+offset_left = 495.0
+offset_top = 97.0
+offset_right = 615.0
+offset_bottom = 120.0
+text = "You are a client"
+
+[node name="Server" type="Label" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 0
+offset_left = 476.0
+offset_top = 98.0
+offset_right = 618.0
+offset_bottom = 121.0
+text = "You are the server"

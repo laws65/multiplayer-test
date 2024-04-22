@@ -11,8 +11,25 @@ config_version=5
 [application]
 
 config/name="tactical"
+run/main_scene="res://src/shared/main/main.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Client="*res://src/client/scripts/client.gd"
+Server="*res://src/server/scripts/server.gd"
+Game="*res://src/shared/scripts/game.gd"
+
+[debug]
+
+multirun/number_of_windows=3
+multirun/add_custom_args=true
+multirun/window_args=["listen", "join"]
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/multirun/plugin.cfg")
 
 [rendering]
 
