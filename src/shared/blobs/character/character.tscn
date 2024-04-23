@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://nux8qtt0bj2h"]
+[gd_scene load_steps=4 format=3 uid="uid://nux8qtt0bj2h"]
 
 [ext_resource type="Script" path="res://src/shared/scripts/blob.gd" id="1_5tb0t"]
 [ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="2_ba450"]
+[ext_resource type="Script" path="res://src/shared/blobs/character/character.gd" id="3_gegqs"]
 
 [node name="Character" type="CharacterBody2D"]
 script = ExtResource("1_5tb0t")
@@ -9,3 +10,8 @@ script = ExtResource("1_5tb0t")
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(4, -11)
 texture = ExtResource("2_ba450")
+
+[node name="Character" type="Node" parent="."]
+script = ExtResource("3_gegqs")
+
+[connection signal="player_tick" from="." to="Character" method="_on_character_player_tick"]

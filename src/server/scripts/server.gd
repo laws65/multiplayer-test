@@ -1,6 +1,8 @@
 extends Node
 
 
+signal server_started
+
 var uninitialised_players: Dictionary
 
 var next_blob_id := 1
@@ -17,6 +19,7 @@ func start_server(port: int=50301) -> void:
 		multiplayer.set_multiplayer_peer(network)
 		multiplayer.peer_connected.connect(_on_Peer_connected)
 		multiplayer.peer_disconnected.connect(_on_Peer_disconnected)
+		server_started.emit()
 
 
 @rpc("any_peer", "reliable")
@@ -39,13 +42,14 @@ func client_loading_finished() -> void:
 	Game.add_player.rpc(player_data)
 
 
-func spawn_blob(scene_path: String, data: Array=[]) -> void:
+func spawn_blob(scene_path: String, data: Array=[]) -> Blob:
 	var new_blob := load(scene_path).instantiate() as Blob
 	var new_blob_id := new_blob.get_instance_id()
 	data.push_front(new_blob_id)
 	new_blob.set_spawn_data(data)
 	Game.get_blobs_parent().add_child(new_blob, true)
 	Game.add_blob.rpc_id(0, scene_path, data)
+	return new_blob
 
 
 func _on_Peer_connected(id: int) -> void:

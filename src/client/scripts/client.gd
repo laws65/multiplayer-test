@@ -1,6 +1,8 @@
 extends Node
 
 
+signal joined_server
+
 var network := ENetMultiplayerPeer.new()
 
 var _join_info_for_server: Array
@@ -41,3 +43,12 @@ func receive_game_info(info: Array, finished: bool=true) -> void:
 
 	if finished:
 		Server.client_loading_finished.rpc_id(1)
+		joined_server.emit()
+
+
+func get_player() -> Player:
+	return Game.get_player_by_id(get_player_id())
+
+
+func get_player_id() -> int:
+	return multiplayer.get_unique_id()
