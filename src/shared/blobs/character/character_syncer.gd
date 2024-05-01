@@ -9,4 +9,7 @@ func get_spawn_data() -> Array:
 
 func set_spawn_data(data: Array) -> void:
 	super(data)
-	$"../Character".set_slot_index(data[4])
+	if data.size() > 4:
+		$"../Character".set_slot_index(data[4])
+	else:
+		$"../Character".set_slot_index(2)
