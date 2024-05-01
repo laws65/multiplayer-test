@@ -56,9 +56,9 @@ func get_sync_state() -> Array:
 	return [position, rotation]
 
 
-func set_sync_state(info: Array) -> void:
-	position = info[0]
-	rotation = info[1]
+func set_sync_state(info_old: Array, info_new: Array, interpolation_factor: float) -> void:
+	position = lerp(info_old[0], info_new[0], interpolation_factor)
+	rotation = lerp_angle(info_old[1], info_new[1], interpolation_factor)
 
 
 func get_spawn_data() -> Array:

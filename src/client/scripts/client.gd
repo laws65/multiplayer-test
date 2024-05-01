@@ -34,7 +34,6 @@ func join_server(ip: String, port: int, join_info_for_server: Array) -> void:
 
 func _on_Connected_to_server() -> void:
 	print("Successfully joined")
-	print(Time.get_unix_time_from_system())
 	Server.fetch_server_time.rpc_id(1, Time.get_unix_time_from_system())
 	Server.initialise_player.rpc_id(1, _join_info_for_server)
 	_determine_latency()
