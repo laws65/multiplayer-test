@@ -7,5 +7,5 @@ func _on_character_player_tick(blob: Blob) -> void:
 		int(Inputs.get_input("down")) - int(Inputs.get_input("up"))
 	).normalized()
 	blob.velocity = axis * 200
-	blob.look_at(Inputs.get_input("mouse_pos"))
+	blob.look_at(Inputs.get_input("mouse_pos", Vector2.ZERO))
 	blob.move_and_slide()

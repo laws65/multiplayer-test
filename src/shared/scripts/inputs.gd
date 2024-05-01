@@ -39,14 +39,14 @@ func receive_client_inputs(inputs: Dictionary) -> void:
 		input_buffer[player_id].pop_back()
 
 
-func get_input(input_name: String) -> Variant:
+func get_input(input_name: String, return_value_if_null: Variant=0) -> Variant:
 	assert(Game.player_id_exists(_player_input_id), "Set target player id with set_player_id(id)")
 
 	if not _player_input_id in input_buffer.keys():
-		return 0
+		return return_value_if_null
 
 	if not input_buffer[_player_input_id].front().has(input_name):
-		return 0
+		return return_value_if_null
 
 	return input_buffer[_player_input_id].front()[input_name]
 

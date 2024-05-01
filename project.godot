@@ -29,10 +29,6 @@ multirun/number_of_windows=3
 multirun/add_custom_args=true
 multirun/window_args=["listen", "join"]
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/multirun/plugin.cfg")
-
 [input]
 
 up={

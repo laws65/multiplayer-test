@@ -52,6 +52,18 @@ func spawn_blob(scene_path: String, data: Array=[]) -> Blob:
 	return new_blob
 
 
+@rpc("any_peer", "reliable")
+func fetch_server_time(client_time: float) -> void:
+	var player_id := multiplayer.get_remote_sender_id()
+	Client.return_server_time.rpc_id(player_id, Time.get_unix_time_from_system(), client_time)
+
+
+@rpc("any_peer", "reliable")
+func determine_latency(client_time: float) -> void:
+	var player_id := multiplayer.get_remote_sender_id()
+	Client.return_latency.rpc_id(player_id, client_time)
+
+
 func _on_Peer_connected(id: int) -> void:
 	print("Peer connected with id " + str(id))
 	uninitialised_players[id] = []
