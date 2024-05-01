@@ -60,13 +60,12 @@ func return_latency(client_time: float) -> void:
 		var mid_point = _latency_array[4]
 		for i in range(_latency_array.size()-1, -1, -1):
 			if _latency_array[i] > (2.0 * mid_point) and _latency_array[i] > 0.02:
-				_latency_array.remove(i)
+				_latency_array.remove_at(i)
 			else:
 				total_latency += _latency_array[i]
 		var new_latency = total_latency / float(_latency_array.size())
 		_delta_latency = new_latency - latency
 		latency = new_latency
-		print("new latency " + str(new_latency))
 		_latency_array.clear()
 
 

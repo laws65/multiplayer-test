@@ -2,25 +2,30 @@ extends CharacterBody2D
 class_name Blob
 
 
-signal player_id_changed(old_player_id, new_player_id)
-signal player_tick(blob)
+signal player_id_changed(old_player_id: int, new_player_id: int)
+signal player_server_tick(blob: Blob)
+signal player_client_tick(blob: Blob)
 
 var _player_id: int
 
+@export
+var _syncer: CustomBlobSyncer ## Custom syncer for general and every tick data, can leave empty
 
-func _ready() -> void:
-	add_to_group("blobs")
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_SCENE_INSTANTIATED:
+		add_to_group("blobs")
+		_setup_syncer()
 
 
 func _physics_process(_delta: float) -> void:
-	if not multiplayer.is_server():
-		return
-
 	if not has_player():
 		return
-
-	Inputs.set_player_id(_player_id)
-	player_tick.emit(self)
+	if multiplayer.is_server():
+		Inputs.set_player_id(_player_id)
+		player_server_tick.emit(self)
+	elif get_player_id() == multiplayer.get_unique_id():
+		player_client_tick.emit(self)
 
 
 @rpc("call_local", "reliable")
@@ -53,20 +58,23 @@ func get_player() -> Player:
 
 
 func get_sync_state() -> Array:
-	return [position, rotation]
+	return _syncer.get_sync_state()
 
 
 func set_sync_state(info_old: Array, info_new: Array, interpolation_factor: float) -> void:
-	position = lerp(info_old[0], info_new[0], interpolation_factor)
-	rotation = lerp_angle(info_old[1], info_new[1], interpolation_factor)
+	_syncer.set_sync_state(info_old, info_new, interpolation_factor)
 
 
 func get_spawn_data() -> Array:
-	return [scene_file_path, get_id(), _player_id, position, rotation]
+	return _syncer.get_spawn_data()
 
 
 func set_spawn_data(info: Array) -> void:
-	name = str(info[0])
-	_player_id = info[1]
-	position = info[2]
-	rotation = info[3]
+	_syncer.set_spawn_data(info)
+
+
+func _setup_syncer() -> void:
+	if not is_instance_valid(_syncer):
+		_syncer = CustomBlobSyncer.new()
+		add_child(_syncer)
+	_syncer.parent_blob = self
