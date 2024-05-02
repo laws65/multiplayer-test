@@ -10,8 +10,8 @@ signal joined_server
 # Server vars
 var uninitialised_peers := {}
 
+# Shared vars
 var _players: Dictionary
-
 
 # Client vars
 var _join_info_for_server: Array
@@ -260,3 +260,15 @@ func _return_latency(client_time: float) -> void:
 		_delta_latency = new_latency - latency
 		latency = new_latency
 		_latency_array.clear()
+
+
+func server_active() -> bool:
+	return multiplayer.has_multiplayer_peer()
+
+
+func is_client() -> bool:
+	return not multiplayer.is_server()
+
+
+func is_server() -> bool:
+	return multiplayer.is_server()

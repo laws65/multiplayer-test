@@ -8,7 +8,7 @@ const INTERPOLATION_OFFSET := 0.1
 
 
 func _physics_process(_delta: float) -> void:
-	if multiplayer.is_server():
+	if Multiplayer.is_server():
 		server_broadcast_state()
 	else:
 		client_sync_state()
