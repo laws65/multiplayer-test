@@ -88,3 +88,17 @@ func _setup_syncer() -> void:
 		_syncer = CustomBlobSyncer.new()
 		add_child(_syncer)
 	_syncer.parent_blob = self
+
+
+static func get_blobs() -> Array:
+	return Multiplayer.get_blobs_parent().get_children()
+
+
+static func blob_id_exists(blob_id: int) -> bool:
+	return blob_id > 0 and Multiplayer.get_blobs_parent().has_node(str(blob_id))
+
+
+static func get_blob_by_id(blob_id: int) -> Blob:
+	if blob_id > 0 and Multiplayer.get_blobs_parent().has_node(str(blob_id)):
+		return Multiplayer.get_blobs_parent().get_node(str(blob_id)) as Blob
+	return null

@@ -31,10 +31,10 @@ static func deserialise(info: Array) -> Player:
 
 
 func has_blob() -> bool:
-	return Multiplayer.blob_id_exists(_blob_id)
+	return Blob.blob_id_exists(_blob_id)
 
 func get_blob() -> Blob:
-	return Multiplayer.get_blob_by_id(_blob_id)
+	return Blob.get_blob_by_id(_blob_id)
 
 
 func get_blob_id() -> int:
@@ -59,7 +59,7 @@ func server_set_blob(blob: Blob) -> void:
 @rpc("call_local", "reliable")
 func _set_blob_id(blob_id: int) -> void:
 	set_blob_id(blob_id)
-	var blob := Multiplayer.get_blob_by_id(blob_id)
+	var blob := Blob.get_blob_by_id(blob_id)
 	if blob != null:
 		blob.set_player_id(get_id())
 

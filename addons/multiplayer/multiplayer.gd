@@ -141,7 +141,7 @@ func server_remove_blob_by_id(blob_id: int) -> void:
 
 @rpc("reliable", "call_local")
 func _remove_blob_by_id(blob_id: int) -> void:
-	var blob := get_blob_by_id(blob_id)
+	var blob := Blob.get_blob_by_id(blob_id)
 	if blob.has_player():
 		blob.get_player().set_blob_id(-1)
 	blob.queue_free()
@@ -154,7 +154,7 @@ func get_game_info() -> Array:
 		players_data.append(player.serialise())
 
 	var blobs_data := []
-	var blobs := get_blobs()
+	var blobs := Blob.get_blobs()
 	for blob in blobs:
 		blobs_data.append(blob.get_spawn_data())
 
@@ -175,8 +175,6 @@ func player_id_exists(player_id: int) -> bool:
 	return player_id > 0 and player_id in get_player_ids()
 
 
-func blob_id_exists(blob_id: int) -> bool:
-	return blob_id > 0 and get_blobs_parent().has_node(str(blob_id))
 
 
 # TODO: Figure out how to make this array Array[Player]
@@ -190,19 +188,8 @@ func get_player_by_id(player_id: int) -> Player:
 	return Player.new(-1)
 
 
-func get_blobs() -> Array:
-	return get_blobs_parent().get_children() as Array
-
-
-func get_blob_by_id(blob_id: int) -> Blob:
-	if blob_id > 0 and get_blobs_parent().has_node(str(blob_id)):
-		return get_blobs_parent().get_node(str(blob_id)) as Blob
-	return null
-
-
 func get_blobs_parent() -> Node2D:
 	return get_tree().root.get_node("Main/World/Blobs")
-
 
 
 func get_client_player() -> Player:
