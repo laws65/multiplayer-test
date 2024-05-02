@@ -139,6 +139,7 @@ func server_remove_blob_by_id(blob_id: int) -> void:
 	assert(is_server())
 	_remove_blob_by_id.rpc_id(0, blob_id)
 
+
 @rpc("reliable", "call_local")
 func _remove_blob_by_id(blob_id: int) -> void:
 	var blob := Blob.get_blob_by_id(blob_id)
@@ -173,8 +174,6 @@ func get_player_ids() -> Array[int]:
 
 func player_id_exists(player_id: int) -> bool:
 	return player_id > 0 and player_id in get_player_ids()
-
-
 
 
 # TODO: Figure out how to make this array Array[Player]
@@ -214,6 +213,7 @@ func join_server(ip: String, port: int, join_info_for_server: Array) -> void:
 		multiplayer.connected_to_server.connect(_on_Connected_to_server)
 		multiplayer.connection_failed.connect(_on_Connection_failed)
 
+
 @rpc("any_peer", "reliable")
 func _initialise_player(info: Array) -> void:
 	assert(Multiplayer.is_server())
@@ -221,6 +221,7 @@ func _initialise_player(info: Array) -> void:
 	if player_id in uninitialised_peers.keys():
 		uninitialised_peers[player_id] = info
 		_receive_game_info.rpc_id(player_id, get_game_info())
+
 
 @rpc("reliable")
 func _receive_game_info(info: Array, finished: bool=true) -> void:
@@ -256,7 +257,6 @@ func _return_server_time(server_time: float, client_time: float) -> void:
 	client_clock = server_time + latency
 
 
-
 @rpc("any_peer", "reliable")
 func _server_determine_latency(client_time: float) -> void:
 	var player_id := multiplayer.get_remote_sender_id()
@@ -285,6 +285,7 @@ func server_active() -> bool:
 	return (multiplayer.has_multiplayer_peer() and
 		multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED
 	)
+
 
 func is_client() -> bool:
 	return server_active() and not multiplayer.is_server()
@@ -330,6 +331,7 @@ func _load_gamemode(config_path: String) -> void:
 
 func _get_map_parent() -> Node2D:
 	return get_tree().root.get_node("Main/World/MapParent")
+
 
 func _get_scripts_parent() -> Node:
 	return get_tree().root.get_node("Main/Scripts")
