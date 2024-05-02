@@ -21,15 +21,25 @@ func _notification(what: int) -> void:
 func _physics_process(_delta: float) -> void:
 	if not has_player():
 		return
-	if multiplayer.is_server():
+	if Multiplayer.is_server():
 		Inputs.set_player_id(_player_id)
 		player_server_tick.emit(self)
 	elif get_player_id() == multiplayer.get_unique_id():
 		player_client_tick.emit(self)
 
 
-@rpc("call_local", "reliable")
 func server_set_player_id(player_id: int) -> void:
+	assert(Multiplayer.is_server(), "Must be called on server")
+	_set_player_id.rpc_id(0, player_id)
+
+
+func server_set_player(player: Player) -> void:
+	assert(Multiplayer.is_server(), "Must be called on server")
+	_set_player_id.rpc_id(0, player.get_id())
+
+
+@rpc("call_local", "reliable")
+func _set_player_id(player_id: int) -> void:
 	set_player_id(player_id)
 	var player := Multiplayer.get_player_by_id(player_id)
 	if player != null:

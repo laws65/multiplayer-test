@@ -8,7 +8,7 @@ var _player_input_id: int = -1
 
 
 func _physics_process(_delta: float) -> void:
-	if not Multiplayer.is_server():
+	if Multiplayer.is_client():
 		var inputs := collect_inputs()
 		receive_client_inputs.rpc_id(1, inputs)
 

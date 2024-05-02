@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://addons/multiplayer/classes/blob.gd" id="1_5tb0t"]
 [ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="2_ba450"]
-[ext_resource type="Script" path="res://src/shared/blobs/character/character.gd" id="3_gegqs"]
-[ext_resource type="Script" path="res://src/shared/blobs/character/character_syncer.gd" id="4_wlpbf"]
+[ext_resource type="Script" path="res://src/blobs/character/character.gd" id="3_gegqs"]
+[ext_resource type="Script" path="res://src/blobs/character/character_syncer.gd" id="4_wlpbf"]
 
 [node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("_syncer")]
 script = ExtResource("1_5tb0t")

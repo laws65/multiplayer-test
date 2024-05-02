@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://pcn7gkjjhguy"]
+[gd_scene load_steps=3 format=3 uid="uid://pcn7gkjjhguy"]
 
 [ext_resource type="Script" path="res://src/shared/world/world.gd" id="1_s6g4f"]
-[ext_resource type="Script" path="res://src/shared/gamemodes/ffa.gd" id="2_lr2vy"]
 [ext_resource type="PackedScene" uid="uid://cc0kaoyb5txwl" path="res://src/client/camera/camera.tscn" id="3_jg8ot"]
 
 [node name="World" type="Node2D"]
@@ -9,7 +8,6 @@ script = ExtResource("1_s6g4f")
 
 [node name="Blobs" type="Node2D" parent="."]
 
-[node name="FFA" type="Node" parent="."]
-script = ExtResource("2_lr2vy")
-
 [node name="Camera2D" parent="." instance=ExtResource("3_jg8ot")]
+
+[node name="MapParent" type="Node2D" parent="."]

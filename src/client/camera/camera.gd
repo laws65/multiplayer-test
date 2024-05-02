@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if multiplayer.is_server():
+	if Multiplayer.is_server():
 		return
 
 	if Multiplayer.get_client_player().has_blob():

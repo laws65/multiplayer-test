@@ -44,3 +44,7 @@ offset_top = 98.0
 offset_right = 618.0
 offset_bottom = 121.0
 text = "You are the server"
+
+[node name="Scripts" type="Node" parent="."]
+
+[node name="Players" type="Node" parent="."]

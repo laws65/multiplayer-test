@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvuv1s0cwcqbl"]
+
+[ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="1_4oxt5"]
+
+[node name="Dust2" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(182, 141)
+texture = ExtResource("1_4oxt5")
+flip_v = true
