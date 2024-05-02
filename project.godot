@@ -17,17 +17,20 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Client="*res://src/client/scripts/client.gd"
-Server="*res://src/server/scripts/server.gd"
 Game="*res://src/shared/scripts/game.gd"
-BlobsSync="*res://src/shared/scripts/blobs_sync.gd"
-Inputs="*res://src/shared/scripts/inputs.gd"
+BlobsSync="*res://addons/multiplayer/classes/blobs_sync.gd"
+Inputs="*res://addons/multiplayer/classes/inputs.gd"
+Multiplayer="*res://addons/multiplayer/multiplayer.gd"
 
 [debug]
 
 multirun/number_of_windows=3
 multirun/add_custom_args=true
 multirun/window_args=["listen", "join"]
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/multiplayer/plugin.cfg")
 
 [input]
 

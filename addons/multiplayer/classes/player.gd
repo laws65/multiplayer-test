@@ -16,7 +16,7 @@ func _init(id: int, username: String="Invalid Player", blob_id: int=-1) -> void:
 
 
 func is_valid() -> bool:
-	return _id > 0 and self in Game.get_players()
+	return _id > 0 and self in Multiplayer.get_players()
 
 
 func serialise() -> Array:
@@ -28,10 +28,10 @@ static func deserialise(info: Array) -> Player:
 
 
 func has_blob() -> bool:
-	return Game.blob_id_exists(_blob_id)
+	return Multiplayer.blob_id_exists(_blob_id)
 
 func get_blob() -> Blob:
-	return Game.get_blob_by_id(_blob_id)
+	return Multiplayer.get_blob_by_id(_blob_id)
 
 
 func get_id() -> int:
@@ -49,7 +49,7 @@ func get_username() -> String:
 @rpc("call_local", "reliable")
 func server_set_blob_id(blob_id: int) -> void:
 	set_blob_id(blob_id)
-	var blob := Game.get_blob_by_id(blob_id)
+	var blob := Multiplayer.get_blob_by_id(blob_id)
 	if blob != null:
 		blob.set_player_id(_id)
 

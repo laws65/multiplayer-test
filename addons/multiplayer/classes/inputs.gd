@@ -19,7 +19,7 @@ func collect_inputs() -> Dictionary:
 		out[input_name] = Input.is_action_pressed(input_name)
 	out["mouse_pos"] = get_tree().root.get_node("Main/World").get_global_mouse_position()
 
-	out["time"] = Client.client_clock
+	out["time"] = Multiplayer.client_clock
 	return out
 
 
@@ -40,7 +40,7 @@ func receive_client_inputs(inputs: Dictionary) -> void:
 
 
 func get_input(input_name: String, return_value_if_null: Variant=0) -> Variant:
-	assert(Game.player_id_exists(_player_input_id), "Set target player id with set_player_id(id)")
+	assert(Multiplayer.player_id_exists(_player_input_id), "Set target player id with set_player_id(id)")
 
 	if not _player_input_id in input_buffer.keys():
 		return return_value_if_null

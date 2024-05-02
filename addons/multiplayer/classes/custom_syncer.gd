@@ -2,7 +2,6 @@ extends Node
 class_name CustomBlobSyncer
 
 
-@export
 var parent_blob: Blob
 
 ## When you add new properties to be synced every frame, override this

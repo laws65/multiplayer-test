@@ -19,8 +19,8 @@ func _process(delta: float) -> void:
 	if multiplayer.is_server():
 		return
 
-	if Client.get_player().has_blob():
-		var blob := Client.get_player().get_blob()
+	if Multiplayer.get_client_player().has_blob():
+		var blob := Multiplayer.get_client_player().get_blob()
 		position = lerp(position, blob.position, delta*position_lerp_strength)
 
 		var mouse_offset := get_viewport().get_mouse_position() - get_viewport_rect().size*0.5

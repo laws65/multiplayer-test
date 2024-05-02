@@ -31,7 +31,7 @@ func _physics_process(_delta: float) -> void:
 @rpc("call_local", "reliable")
 func server_set_player_id(player_id: int) -> void:
 	set_player_id(player_id)
-	var player := Game.get_player_by_id(player_id)
+	var player := Multiplayer.get_player_by_id(player_id)
 	if player != null:
 		player.set_blob_id(get_id())
 
@@ -42,7 +42,7 @@ func set_player_id(player_id: int) -> void:
 
 
 func has_player() -> bool:
-	return Game.player_id_exists(_player_id)
+	return Multiplayer.player_id_exists(_player_id)
 
 
 func get_player_id() -> int:
@@ -54,7 +54,7 @@ func get_id() -> int:
 
 
 func get_player() -> Player:
-	return Game.get_player_by_id(_player_id)
+	return Multiplayer.get_player_by_id(_player_id)
 
 
 func get_sync_state() -> Array:
