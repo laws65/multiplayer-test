@@ -27,7 +27,7 @@ func client_sync_state() -> void:
 	if blob_buffer.size() <= 1:
 		return
 
-	var render_time := Multiplayer.client_clock - INTERPOLATION_OFFSET
+	var render_time := Clock.time - INTERPOLATION_OFFSET
 
 	while blob_buffer.size() > 2 and render_time > blob_buffer[1]["time"]:
 		blob_buffer.remove_at(0)

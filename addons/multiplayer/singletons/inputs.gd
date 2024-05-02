@@ -19,7 +19,7 @@ func collect_inputs() -> Dictionary:
 		out[input_name] = Input.is_action_pressed(input_name)
 	out["mouse_pos"] = get_tree().root.get_node("Main/World").get_global_mouse_position()
 
-	out["time"] = Multiplayer.client_clock
+	out["time"] = Clock.time
 	return out
 
 
