@@ -19,7 +19,7 @@ func get_id() -> int:
 
 
 func is_valid() -> bool:
-	return get_id() > 0 and self in Multiplayer.get_players()
+	return get_id() > 0 and self in get_players()
 
 
 func serialise() -> Array:
@@ -67,3 +67,25 @@ func _set_blob_id(blob_id: int) -> void:
 func set_blob_id(blob_id: int) -> void:
 	blob_id_changed.emit(_blob_id, blob_id)
 	_blob_id = blob_id
+
+
+static func get_players() -> Array:
+	return Multiplayer.get_players_parent().get_children()
+
+
+static func get_player_ids() -> Array[int]:
+	var players := get_players()
+	var out: Array[int]
+	for player in players:
+		out.push_back(player.get_id())
+	return out
+
+
+static func player_id_exists(player_id: int) -> bool:
+	return player_id > 0 and player_id in get_player_ids()
+
+
+static func get_player_by_id(player_id: int) -> Player:
+	if player_id_exists(player_id):
+		return Multiplayer.get_players_parent().get_node(str(player_id))
+	return Player.new(-1)

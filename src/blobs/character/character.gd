@@ -54,7 +54,7 @@ func request_change_slot_index(index: int) -> void:
 	change_weapon_slot.rpc_id(1, index)
 
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func set_slot_index(index: int) -> void:
 	if selected_slot_index == index:
 		return

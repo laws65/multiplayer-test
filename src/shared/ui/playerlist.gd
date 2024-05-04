@@ -16,7 +16,7 @@ func _on_Player_left(_player: Player) -> void:
 
 func _update_list() -> void:
 	text = "Players:"
-	var player_list := Multiplayer.get_players()
+	var player_list := Player.get_players()
 	for player in player_list:
 		text += "\n" + player.get_username()
 

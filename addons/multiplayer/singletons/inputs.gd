@@ -40,7 +40,7 @@ func receive_client_inputs(inputs: Dictionary) -> void:
 
 
 func get_input(input_name: String, return_value_if_null: Variant=0) -> Variant:
-	assert(Multiplayer.player_id_exists(_player_input_id), "Set target player id with set_player_id(id)")
+	assert(Player.player_id_exists(_player_input_id), "Set target player id with set_player_id(id)")
 
 	if not _player_input_id in input_buffer.keys():
 		return return_value_if_null

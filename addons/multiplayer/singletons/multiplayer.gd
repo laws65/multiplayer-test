@@ -90,9 +90,9 @@ func _on_Peer_disconnected(id: int) -> void:
 
 @rpc("call_local", "reliable")
 func _server_remove_player_by_id(player_id: int) -> void:
-	var player := get_player_by_id(player_id)
+	var player := Player.get_player_by_id(player_id)
 	player.queue_free()
-	_get_players_parent().remove_child(player)
+	get_players_parent().remove_child(player)
 	print("Deleting player with username " + player.get_username())
 
 	player_left.emit(player)
@@ -101,7 +101,7 @@ func _server_remove_player_by_id(player_id: int) -> void:
 @rpc("call_local", "reliable")
 func _add_player(player_data: Array, is_new:bool=true) -> void:
 	var new_player := Player.deserialise(player_data)
-	_get_players_parent().add_child(new_player, true)
+	get_players_parent().add_child(new_player, true)
 	print("Added player with username " + new_player.get_username())
 	if is_new:
 		player_joined.emit(new_player)
@@ -142,7 +142,7 @@ func _remove_blob_by_id(blob_id: int) -> void:
 
 func get_game_info() -> Array:
 	var players_data := []
-	var players := get_players()
+	var players := Player.get_players()
 	for player in players:
 		players_data.append(player.serialise())
 
@@ -156,27 +156,11 @@ func get_game_info() -> Array:
 	return [players_data, blobs_data, _map_filepath, _gamemode_cfg_path]
 
 
-func get_player_ids() -> Array[int]:
-	var players := get_players()
-	var out: Array[int]
-	for player in players:
-		out.push_back(player.get_id())
-	return out
 
 
-func player_id_exists(player_id: int) -> bool:
-	return player_id > 0 and player_id in get_player_ids()
 
 
-# TODO: Figure out how to make this array Array[Player]
-func get_players() -> Array:
-	return _get_players_parent().get_children()
 
-
-func get_player_by_id(player_id: int) -> Player:
-	if player_id_exists(player_id):
-		return _get_players_parent().get_node(str(player_id))
-	return Player.new(-1)
 
 
 func get_blobs_parent() -> Node2D:
@@ -184,7 +168,7 @@ func get_blobs_parent() -> Node2D:
 
 
 func get_client_player() -> Player:
-	return get_player_by_id(get_client_id())
+	return Player.get_player_by_id(get_client_id())
 
 
 func get_client_id() -> int:
@@ -295,5 +279,5 @@ func _get_scripts_parent() -> Node:
 	return get_tree().root.get_node("Main/Scripts")
 
 
-func _get_players_parent() -> Node:
+func get_players_parent() -> Node:
 	return get_tree().root.get_node("Main/Players")

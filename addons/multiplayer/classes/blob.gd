@@ -41,7 +41,7 @@ func server_set_player(player: Player) -> void:
 @rpc("call_local", "reliable")
 func _set_player_id(player_id: int) -> void:
 	set_player_id(player_id)
-	var player := Multiplayer.get_player_by_id(player_id)
+	var player := Player.get_player_by_id(player_id)
 	if player != null:
 		player.set_blob_id(get_id())
 
@@ -52,7 +52,7 @@ func set_player_id(player_id: int) -> void:
 
 
 func has_player() -> bool:
-	return Multiplayer.player_id_exists(_player_id)
+	return Player.player_id_exists(_player_id)
 
 
 func get_player_id() -> int:
@@ -64,7 +64,7 @@ func get_id() -> int:
 
 
 func get_player() -> Player:
-	return Multiplayer.get_player_by_id(_player_id)
+	return Player.get_player_by_id(_player_id)
 
 
 func get_sync_state() -> Array:
