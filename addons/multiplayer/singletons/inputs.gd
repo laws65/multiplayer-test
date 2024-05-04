@@ -6,6 +6,9 @@ var max_buffer_size := 5
 
 var _player_input_id: int = -1
 
+var _client_input_number := 0
+var _client_unacknowledged_inputs: Dictionary
+
 
 func _physics_process(_delta: float) -> void:
 	if Multiplayer.is_client():
@@ -17,9 +20,14 @@ func collect_inputs() -> Dictionary:
 	var out := {}
 	for input_name in ["left", "right", "up", "down"]:
 		out[input_name] = Input.is_action_pressed(input_name)
-	out["mouse_pos"] = get_tree().root.get_node("Main/World").get_global_mouse_position()
 
+	out["mouse_pos"] = get_tree().root.get_node("Main/World").get_global_mouse_position()
 	out["time"] = Clock.time
+
+	out["input_number"] = _client_input_number
+	_client_input_number += 1
+	_client_unacknowledged_inputs[_client_input_number] = out
+
 	return out
 
 

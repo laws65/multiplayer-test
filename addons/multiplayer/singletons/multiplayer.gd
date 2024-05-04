@@ -20,22 +20,12 @@ var uninitialised_peers := {}
 
 # Client vars
 var _join_info_for_server: Array
-var latency: float
-var client_clock: float
-var _latency_array = []
-var _delta_latency = 0
 var input_collector := Input
 
 var _gamemode_cfg_path := "res://src/gamemodes/ffa/ffa.cfg"
 var _map_filepath := "res://src/maps/dust2/dust2.tscn"
 
 var _gamemode_cfg := ConfigFile.new()
-
-
-func _physics_process(delta: float) -> void:
-	if not Multiplayer.is_server():
-		client_clock += delta + _delta_latency
-		_delta_latency = 0
 
 
 @rpc("any_peer", "reliable")

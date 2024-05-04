@@ -36,13 +36,43 @@ func change_weapon_slot(slot_index: int) -> void:
 
 
 func _on_character_player_server_tick(blob: Blob) -> void:
+	if Multiplayer.is_server():
+		blob.get_player()._server_last_acknowledged_input = Inputs.get_input("input_number")
+
 	var axis := Vector2(
 		int(Inputs.get_input("right")) - int(Inputs.get_input("left")),
 		int(Inputs.get_input("down")) - int(Inputs.get_input("up"))
 	).normalized()
-	blob.velocity = axis * 200
 	blob.look_at(Inputs.get_input("mouse_pos", Vector2.ZERO))
-	blob.move_and_slide()
+	blob.position += axis * 200 * get_physics_process_delta_time()
+
+
+func _simulate_physics_frame(_blob: Blob, input: Dictionary) -> void:
+	if Multiplayer.is_server():
+		_blob.get_player()._server_last_acknowledged_input = input["input_number"]
+
+	var axis := Vector2(
+		int(input["right"]) - int(input["left"]),
+		int(input["down"]) - int(input["up"])
+	).normalized()
+	ghost.look_at(Vector2(input["mouse_pos"]))
+	ghost.position += axis * 200 * get_physics_process_delta_time()
+
+
+func handle_rollback(blob_state: Array, last_acknowledged_input: int) -> void:
+	#get_parent().set_sync_state(blob_state, blob_state, 1)
+	ghost.position = blob_state[0]
+	ghost.rotation = blob_state[1]
+
+	var input_numbers := Inputs._client_unacknowledged_inputs.keys()
+	input_numbers.sort()
+	for number in input_numbers:
+		if number <= last_acknowledged_input:
+			input_numbers.erase(number)
+			Inputs._client_unacknowledged_inputs.erase(number)
+	for number in input_numbers:
+		_simulate_physics_frame(get_parent(), Inputs._client_unacknowledged_inputs[number])
+
 
 
 func _on_character_player_client_tick(_blob: Blob) -> void:

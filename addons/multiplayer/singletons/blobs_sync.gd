@@ -20,7 +20,10 @@ func server_broadcast_state() -> void:
 	for blob in blobs:
 		state[blob.get_id()] = blob.get_sync_state()
 	state["time"] = Time.get_unix_time_from_system()
-	receive_blob_state.rpc_id(0, state)
+	for player in Player.get_players():
+		var player_id: int = player.get_id()
+		var input_number: int = player._server_last_acknowledged_input
+		receive_blob_state.rpc_id(player_id, state, input_number)
 
 
 func client_sync_state() -> void:
@@ -40,8 +43,12 @@ func client_sync_state() -> void:
 
 
 @rpc("unreliable_ordered")
-func receive_blob_state(new_state: Dictionary) -> void:
+func receive_blob_state(new_state: Dictionary, input_number: int) -> void:
 	blob_buffer.push_back(new_state)
+
+	if Multiplayer.get_client_player().has_blob():
+		var blob := Multiplayer.get_client_player().get_blob()
+		blob.get_node("Character").handle_rollback(new_state[blob.get_id()], input_number)
 	# TODO re-add me
 	#for index in blob_buffer.size():
 		#if new_state["time"] > blob_buffer[index]["time"]:

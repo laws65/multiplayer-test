@@ -7,6 +7,8 @@ signal blob_id_changed(old_blob_id, new_blob_id)
 var _username: String
 var _blob_id: int
 
+var _server_last_acknowledged_input: int
+
 
 func _init(id: int, username: String="Invalid Player", blob_id: int=-1) -> void:
 	name = str(id)
