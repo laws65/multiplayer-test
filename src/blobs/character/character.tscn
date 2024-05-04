@@ -1,13 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://nux8qtt0bj2h"]
+[gd_scene load_steps=6 format=3 uid="uid://nux8qtt0bj2h"]
 
 [ext_resource type="Script" path="res://addons/multiplayer/classes/blob.gd" id="1_5tb0t"]
 [ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="2_ba450"]
 [ext_resource type="Script" path="res://src/blobs/character/character.gd" id="3_gegqs"]
 [ext_resource type="Script" path="res://src/blobs/character/character_syncer.gd" id="4_wlpbf"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nk7pw"]
+size = Vector2(128, 128)
+
 [node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("_syncer")]
 script = ExtResource("1_5tb0t")
 _syncer = NodePath("Syncer")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_nk7pw")
 
 [node name="Icon" type="Sprite2D" parent="."]
 texture = ExtResource("2_ba450")
@@ -36,6 +46,7 @@ texture = ExtResource("2_ba450")
 [node name="Syncer" type="Node" parent="."]
 script = ExtResource("4_wlpbf")
 
+[connection signal="die" from="." to="Character" method="_on_character_die"]
 [connection signal="player_client_tick" from="." to="Character" method="_on_character_player_client_tick"]
 [connection signal="player_id_changed" from="." to="Character" method="_on_character_player_id_changed"]
 [connection signal="player_server_tick" from="." to="Character" method="_on_character_player_server_tick"]

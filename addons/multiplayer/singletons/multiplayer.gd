@@ -13,6 +13,8 @@ signal post_change_map
 signal pre_change_gamemode
 signal post_change_gamemode
 
+signal blob_died(blob: Blob)
+
 # Server vars
 var uninitialised_peers := {}
 
@@ -127,6 +129,10 @@ func _add_blob(scene_path: String, blob_data: Array, _is_new:bool=true) -> void:
 	get_blobs_parent().add_child(new_blob, true)
 
 
+func server_remove_blob(blob: Blob) -> void:
+	server_remove_blob_by_id(blob.get_id())
+
+
 func server_remove_blob_by_id(blob_id: int) -> void:
 	assert(is_server())
 	_remove_blob_by_id.rpc_id(0, blob_id)
@@ -135,8 +141,12 @@ func server_remove_blob_by_id(blob_id: int) -> void:
 @rpc("reliable", "call_local")
 func _remove_blob_by_id(blob_id: int) -> void:
 	var blob := Blob.get_blob_by_id(blob_id)
+	blob.die.emit()
+	blob_died.emit(blob)
+
 	if blob.has_player():
 		blob.get_player().set_blob_id(-1)
+
 	blob.queue_free()
 
 

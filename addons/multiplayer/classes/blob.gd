@@ -5,6 +5,7 @@ class_name Blob
 signal player_id_changed(old_player_id: int, new_player_id: int)
 signal player_server_tick(blob: Blob)
 signal player_client_tick(blob: Blob)
+signal die
 
 var _player_id: int
 

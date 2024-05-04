@@ -33,6 +33,7 @@ static func deserialise(info: Array) -> Player:
 func has_blob() -> bool:
 	return Blob.blob_id_exists(_blob_id)
 
+
 func get_blob() -> Blob:
 	return Blob.get_blob_by_id(_blob_id)
 

@@ -8,6 +8,11 @@ var inventory := [-1, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 
 var most_recent_slot_change_request_time := 0.0
 
+var ghost: CharacterBody2D
+
+var health := 5.0
+
+
 enum {
 	SLOT_PRIMARY=0,
 	SLOT_SECONDARY=1,
@@ -47,6 +52,33 @@ func _on_character_player_client_tick(_blob: Blob) -> void:
 		request_change_slot_index(SLOT_SECONDARY)
 	elif Input.is_action_just_pressed("tertiary"):
 		request_change_slot_index(SLOT_KNIFE)
+	elif Input.is_action_just_pressed("shoot"):
+		shoot.rpc_id(1)
+
+
+@rpc("any_peer", "reliable")
+func shoot() -> void:
+	assert(Multiplayer.is_server())
+	var space_state := get_parent().get_world_2d().direct_space_state as PhysicsDirectSpaceState2D
+	var query := PhysicsRayQueryParameters2D.create(
+		get_parent().position,
+		get_parent().position + (Vector2.RIGHT*1000).rotated(get_parent().rotation),
+		16,
+		[] # TODO add self hitbox into this RID array
+	)
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	var result := space_state.intersect_ray(query)
+	if result:
+		var blob := result.collider.get_parent() as Blob
+		blob.get_node("Character").damage_me.rpc_id(0, 0.5)
+
+
+@rpc("reliable", "call_local")
+func damage_me(damage: float) -> void:
+	health -= damage
+	if health <= 0.0 and Multiplayer.is_server():
+		Multiplayer.server_remove_blob(get_parent())
 
 
 func request_change_slot_index(index: int) -> void:
@@ -78,6 +110,14 @@ func set_slot_index(index: int, server_time: float=0) -> void:
 
 func _on_character_player_id_changed(_old_player_id: int, _new_player_id: int) -> void:
 	if get_parent().is_my_blob():
-		var instance = load("res://src/client/ghost/ghost.tscn").instantiate()
-		get_parent().get_parent().get_parent().add_child(instance)
-		instance.position = get_parent().position
+		ghost = load("res://src/client/ghost/ghost.tscn").instantiate()
+		get_parent().get_parent().get_parent().add_child(ghost)
+		ghost.position = get_parent().position
+	else:
+		if is_instance_valid(ghost):
+			ghost.queue_free()
+
+
+func _on_character_die() -> void:
+	if get_parent().is_my_blob():
+		ghost.queue_free()
