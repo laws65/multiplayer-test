@@ -32,7 +32,6 @@ func _fetch_server_time(client_time: float) -> void:
 func _return_server_time(server_time: float, client_time: float) -> void:
 	latency = (Time.get_unix_time_from_system()-client_time)/2.0
 	time = server_time + latency
-	print(latency)
 
 
 func _determine_latency() -> void:

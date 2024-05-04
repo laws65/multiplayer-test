@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu3vb5kjrdn5s"]
+
+[ext_resource type="Script" path="res://src/client/ghost/ghost.gd" id="1_wk5de"]
+[ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="2_iv6lr"]
+
+[node name="Ghost" type="CharacterBody2D"]
+modulate = Color(1, 0.65098, 1, 0.415686)
+script = ExtResource("1_wk5de")
+
+[node name="Icon" type="Sprite2D" parent="."]
+texture = ExtResource("2_iv6lr")

@@ -22,6 +22,7 @@ enum {
 	SLOT_STIM=9,
 }
 
+
 @rpc("any_peer", "reliable")
 func change_weapon_slot(slot_index: int) -> void:
 	if get_parent().get_player_id() != multiplayer.get_remote_sender_id():
@@ -73,3 +74,10 @@ func set_slot_index(index: int, server_time: float=0) -> void:
 	and server_time + Clock.latency > most_recent_slot_change_request_time):
 		return
 	client_set_slot_index(index)
+
+
+func _on_character_player_id_changed(_old_player_id: int, _new_player_id: int) -> void:
+	if get_parent().is_my_blob():
+		var instance = load("res://src/client/ghost/ghost.tscn").instantiate()
+		get_parent().get_parent().get_parent().add_child(instance)
+		instance.position = get_parent().position

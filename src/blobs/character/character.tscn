@@ -37,4 +37,5 @@ texture = ExtResource("2_ba450")
 script = ExtResource("4_wlpbf")
 
 [connection signal="player_client_tick" from="." to="Character" method="_on_character_player_client_tick"]
+[connection signal="player_id_changed" from="." to="Character" method="_on_character_player_id_changed"]
 [connection signal="player_server_tick" from="." to="Character" method="_on_character_player_server_tick"]

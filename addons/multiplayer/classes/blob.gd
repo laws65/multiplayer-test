@@ -47,8 +47,8 @@ func _set_player_id(player_id: int) -> void:
 
 
 func set_player_id(player_id: int) -> void:
-	player_id_changed.emit(_player_id, player_id)
 	_player_id = player_id
+	player_id_changed.emit(_player_id, player_id)
 
 
 func has_player() -> bool:
