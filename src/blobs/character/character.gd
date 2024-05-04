@@ -6,6 +6,8 @@ var selected_slot_index: int = SLOT_PRIMARY
 var inventory := [-1, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
+var most_recent_slot_change_request_time := 0.0
+
 enum {
 	SLOT_PRIMARY=0,
 	SLOT_SECONDARY=1,
@@ -24,8 +26,7 @@ enum {
 func change_weapon_slot(slot_index: int) -> void:
 	if get_parent().get_player_id() != multiplayer.get_remote_sender_id():
 		return
-
-	set_slot_index.rpc_id(0, slot_index)
+	set_slot_index.rpc_id(0, slot_index, Time.get_unix_time_from_system())
 
 
 func _on_character_player_server_tick(blob: Blob) -> void:
@@ -50,16 +51,25 @@ func _on_character_player_client_tick(_blob: Blob) -> void:
 func request_change_slot_index(index: int) -> void:
 	if selected_slot_index == index:
 		return
-	set_slot_index(index)
+	client_set_slot_index(index)
 	change_weapon_slot.rpc_id(1, index)
+	most_recent_slot_change_request_time = Clock.time
 
 
-@rpc("call_local", "reliable")
-func set_slot_index(index: int) -> void:
-	if selected_slot_index == index:
-		return
+func client_set_slot_index(index):
 	selected_slot_index = index
 	var slots = [$"../Ak", $"../Glock", $"../Knife"]
 	for slot in slots:
 		slot.hide()
 	slots[index].show()
+
+
+@rpc("call_local", "reliable")
+func set_slot_index(index: int, server_time: float=0) -> void:
+	if selected_slot_index == index:
+		return
+	if (Multiplayer.is_client()
+	and get_parent().is_my_blob()
+	and server_time + Clock.latency > most_recent_slot_change_request_time):
+		return
+	client_set_slot_index(index)

@@ -156,13 +156,6 @@ func get_game_info() -> Array:
 	return [players_data, blobs_data, _map_filepath, _gamemode_cfg_path]
 
 
-
-
-
-
-
-
-
 func get_blobs_parent() -> Node2D:
 	return get_tree().root.get_node("Main/World/Blobs")
 
@@ -219,8 +212,6 @@ func _receive_game_info(info: Array, finished: bool=true) -> void:
 	if finished:
 		_client_loading_finished.rpc_id(1)
 		joined_server.emit()
-
-
 
 
 func server_active() -> bool:

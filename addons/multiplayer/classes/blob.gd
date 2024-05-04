@@ -24,7 +24,7 @@ func _physics_process(_delta: float) -> void:
 	if Multiplayer.is_server():
 		Inputs.set_player_id(_player_id)
 		player_server_tick.emit(self)
-	elif get_player_id() == multiplayer.get_unique_id():
+	elif is_my_blob():
 		player_client_tick.emit(self)
 
 
@@ -53,6 +53,13 @@ func set_player_id(player_id: int) -> void:
 
 func has_player() -> bool:
 	return Player.player_id_exists(_player_id)
+
+
+func is_my_blob() -> bool:
+	return (Multiplayer.is_client()
+		and multiplayer
+		and get_player_id() == multiplayer.get_unique_id()
+	)
 
 
 func get_player_id() -> int:
