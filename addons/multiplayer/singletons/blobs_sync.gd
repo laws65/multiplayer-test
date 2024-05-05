@@ -49,7 +49,8 @@ func receive_blob_state(new_state: Dictionary, input_number: int) -> void:
 	if Multiplayer.has_client_blob():
 		var blob := Multiplayer.get_client_blob()
 		var unacknowledged_inputs := _client_acknowledge_input(input_number)
-		blob.get_node("Character").ghost.position = new_state[blob.get_id()][0]
+		#blob.get_node("Character").ghost.position = new_state[blob.get_id()][0]
+		blob.get_node("Character").set_new_pos(new_state[blob.get_id()][0])
 		blob.get_node("Character").ghost.rotation = new_state[blob.get_id()][1]
 		for number in unacknowledged_inputs:
 			blob.get_node("Character")._simulate_physics_frame(blob, Inputs._client_unacknowledged_inputs[number])

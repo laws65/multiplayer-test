@@ -12,6 +12,20 @@ var ghost: CharacterBody2D
 
 var health := 5.0
 
+var old_pos := Vector2.ZERO
+var new_pos := Vector2.ZERO
+var lerp_factor := 0.0
+
+func set_new_pos(pos: Vector2) -> void:
+	lerp_factor = 0.0
+	old_pos = new_pos
+	new_pos = pos
+
+func _process(delta: float) -> void:
+	lerp_factor += delta / get_physics_process_delta_time()
+	if ghost:
+		ghost.position = lerp(old_pos, new_pos, lerp_factor)
+
 
 enum {
 	SLOT_PRIMARY=0,
@@ -56,7 +70,8 @@ func _simulate_physics_frame(_blob: Blob, input: Dictionary) -> void:
 		int(input["down"]) - int(input["up"])
 	).normalized()
 	ghost.look_at(Vector2(input["mouse_pos"]))
-	ghost.position += axis * 200 * get_physics_process_delta_time()
+	set_new_pos(new_pos + axis * 200 * get_physics_process_delta_time())
+	#ghost.position += axis * 200 * get_physics_process_delta_time()
 
 
 func _on_character_player_client_tick(_blob: Blob) -> void:
@@ -126,7 +141,8 @@ func _on_character_player_id_changed(_old_player_id: int, _new_player_id: int) -
 	if get_parent().is_my_blob():
 		ghost = load("res://src/client/ghost/ghost.tscn").instantiate()
 		get_parent().get_parent().get_parent().add_child(ghost)
-		ghost.position = get_parent().position
+		#ghost.position = get_parent().position
+		set_new_pos(get_parent().position)
 	else:
 		if is_instance_valid(ghost):
 			ghost.queue_free()
