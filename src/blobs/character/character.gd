@@ -44,8 +44,7 @@ func _on_character_player_server_tick(blob: Blob) -> void:
 		int(Inputs.get_input("down")) - int(Inputs.get_input("up"))
 	).normalized()
 	blob.look_at(Inputs.get_input("mouse_pos", Vector2.ZERO))
-	var tickrate := float(Engine.get_physics_ticks_per_second())
-	blob.position += axis * 200 * (1.0/tickrate)
+	blob.position += axis * 200 * get_physics_process_delta_time()
 
 
 func _simulate_physics_frame(_blob: Blob, input: Dictionary) -> void:
@@ -57,8 +56,7 @@ func _simulate_physics_frame(_blob: Blob, input: Dictionary) -> void:
 		int(input["down"]) - int(input["up"])
 	).normalized()
 	ghost.look_at(Vector2(input["mouse_pos"]))
-	var tickrate := float(Engine.get_physics_ticks_per_second())
-	ghost.position += axis * 200 * (1.0/tickrate)
+	ghost.position += axis * 200 * get_physics_process_delta_time()
 
 
 func handle_rollback(blob_state: Array, last_acknowledged_input: int) -> void:
