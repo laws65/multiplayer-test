@@ -164,6 +164,14 @@ func get_client_player() -> Player:
 	return Player.get_player_by_id(get_client_id())
 
 
+func get_client_blob() -> Blob:
+	return get_client_player().get_blob()
+
+
+func has_client_blob() -> bool:
+	return get_client_player().has_blob()
+
+
 func get_client_id() -> int:
 	if not server_active():
 		return -1
