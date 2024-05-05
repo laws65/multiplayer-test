@@ -18,9 +18,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Multiplayer.is_server():
 		return
-	return
+
 	if Multiplayer.has_client_blob():
 		var blob := Multiplayer.get_client_blob()
+		# HACK it must be setting blob.position on client to be nan for some reason when it's first spawned in
+		if is_nan(blob.position.x) or is_nan(blob.position.y):
+			return
+
 		position = lerp(position, blob.position, delta*position_lerp_strength)
 
 		var mouse_offset := get_viewport().get_mouse_position() - get_viewport_rect().size*0.5
