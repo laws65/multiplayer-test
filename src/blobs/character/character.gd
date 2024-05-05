@@ -59,22 +59,6 @@ func _simulate_physics_frame(_blob: Blob, input: Dictionary) -> void:
 	ghost.position += axis * 200 * get_physics_process_delta_time()
 
 
-func handle_rollback(blob_state: Array, last_acknowledged_input: int) -> void:
-	#get_parent().set_sync_state(blob_state, blob_state, 1)
-	ghost.position = blob_state[0]
-	ghost.rotation = blob_state[1]
-
-	var input_numbers := Inputs._client_unacknowledged_inputs.keys()
-	input_numbers.sort()
-	for number in input_numbers:
-		if number <= last_acknowledged_input:
-			input_numbers.erase(number)
-			Inputs._client_unacknowledged_inputs.erase(number)
-	for number in input_numbers:
-		_simulate_physics_frame(get_parent(), Inputs._client_unacknowledged_inputs[number])
-
-
-
 func _on_character_player_client_tick(_blob: Blob) -> void:
 	if Input.is_action_just_pressed("primary"):
 		request_change_slot_index(SLOT_PRIMARY)

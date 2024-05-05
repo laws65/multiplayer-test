@@ -18,7 +18,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Multiplayer.is_server():
 		return
-
+	return
 	if Multiplayer.has_client_blob():
 		var blob := Multiplayer.get_client_blob()
 		position = lerp(position, blob.position, delta*position_lerp_strength)
