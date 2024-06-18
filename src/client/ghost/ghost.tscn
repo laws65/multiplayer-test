@@ -9,3 +9,4 @@ script = ExtResource("1_wk5de")
 
 [node name="Icon" type="Sprite2D" parent="."]
 texture = ExtResource("2_iv6lr")
+offset = Vector2(11, -4)

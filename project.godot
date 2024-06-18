@@ -21,6 +21,7 @@ BlobsSync="*res://addons/multiplayer/singletons/blobs_sync.gd"
 Clock="*res://addons/multiplayer/singletons/clock.gd"
 Inputs="*res://addons/multiplayer/singletons/inputs.gd"
 Multiplayer="*res://addons/multiplayer/singletons/multiplayer.gd"
+Reconciliator="*res://addons/multiplayer/singletons/reconciliator.gd"
 
 [debug]
 

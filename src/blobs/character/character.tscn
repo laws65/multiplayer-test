@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://nux8qtt0bj2h"]
+[gd_scene load_steps=7 format=3 uid="uid://nux8qtt0bj2h"]
 
 [ext_resource type="Script" path="res://addons/multiplayer/classes/blob.gd" id="1_5tb0t"]
 [ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="2_ba450"]
+[ext_resource type="Texture2D" uid="uid://wwi6c2ggnsju" path="res://assets/player/tactical-walking1.png" id="2_vwut0"]
 [ext_resource type="Script" path="res://src/blobs/character/character.gd" id="3_gegqs"]
 [ext_resource type="Script" path="res://src/blobs/character/character_syncer.gd" id="4_wlpbf"]
 
@@ -20,7 +21,8 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_nk7pw")
 
 [node name="Icon" type="Sprite2D" parent="."]
-texture = ExtResource("2_ba450")
+position = Vector2(11, -4)
+texture = ExtResource("2_vwut0")
 
 [node name="Character" type="Node" parent="."]
 script = ExtResource("3_gegqs")

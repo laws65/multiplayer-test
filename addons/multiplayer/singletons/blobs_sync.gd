@@ -47,25 +47,10 @@ func receive_blob_state(new_state: Dictionary, input_number: int) -> void:
 	blob_buffer.push_back(new_state)
 
 	if Multiplayer.has_client_blob():
-		var blob := Multiplayer.get_client_blob()
-		var unacknowledged_inputs := _client_acknowledge_input(input_number)
-		#blob.get_node("Character").ghost.position = new_state[blob.get_id()][0]
-		blob.get_node("Character").set_new_pos(new_state[blob.get_id()][0])
-		blob.get_node("Character").ghost.rotation = new_state[blob.get_id()][1]
-		for number in unacknowledged_inputs:
-			blob.get_node("Character")._simulate_physics_frame(blob, Inputs._client_unacknowledged_inputs[number])
-
+		Reconciliator._reconciliate_client_blob(new_state, input_number)
 	# TODO re-add me
 	#for index in blob_buffer.size():
 		#if new_state["time"] > blob_buffer[index]["time"]:
 			#blob_buffer.insert(index, new_state)
 
 
-func _client_acknowledge_input(last_acknowledged_input: int) -> Array:
-	var input_numbers := Inputs._client_unacknowledged_inputs.keys()
-	input_numbers.sort()
-	for number in input_numbers:
-		if number <= last_acknowledged_input:
-			input_numbers.erase(number)
-			Inputs._client_unacknowledged_inputs.erase(number)
-	return input_numbers

@@ -16,17 +16,6 @@ var old_pos := Vector2.ZERO
 var new_pos := Vector2.ZERO
 var lerp_factor := 0.0
 
-func set_new_pos(pos: Vector2) -> void:
-	lerp_factor = 0.0
-	old_pos = new_pos
-	new_pos = pos
-
-func _process(delta: float) -> void:
-	lerp_factor += delta / get_physics_process_delta_time()
-	if ghost:
-		ghost.position = lerp(old_pos, new_pos, lerp_factor)
-
-
 enum {
 	SLOT_PRIMARY=0,
 	SLOT_SECONDARY=1,
@@ -59,19 +48,6 @@ func _on_character_player_server_tick(blob: Blob) -> void:
 	).normalized()
 	blob.look_at(Inputs.get_input("mouse_pos", Vector2.ZERO))
 	blob.position += axis * 200 * get_physics_process_delta_time()
-
-
-func _simulate_physics_frame(_blob: Blob, input: Dictionary) -> void:
-	if Multiplayer.is_server():
-		_blob.get_player()._server_last_acknowledged_input = input["input_number"]
-
-	var axis := Vector2(
-		int(input["right"]) - int(input["left"]),
-		int(input["down"]) - int(input["up"])
-	).normalized()
-	ghost.look_at(Vector2(input["mouse_pos"]))
-	set_new_pos(new_pos + axis * 200 * get_physics_process_delta_time())
-	#ghost.position += axis * 200 * get_physics_process_delta_time()
 
 
 func _on_character_player_client_tick(_blob: Blob) -> void:
@@ -140,9 +116,9 @@ func set_slot_index(index: int, server_time: float=0) -> void:
 func _on_character_player_id_changed(_old_player_id: int, _new_player_id: int) -> void:
 	if get_parent().is_my_blob():
 		ghost = load("res://src/client/ghost/ghost.tscn").instantiate()
+		ghost.get_node("Icon").texture = load("res://assets/player/tactical-walking1.png")
 		get_parent().get_parent().get_parent().add_child(ghost)
-		#ghost.position = get_parent().position
-		set_new_pos(get_parent().position)
+		ghost.position = get_parent().position
 	else:
 		if is_instance_valid(ghost):
 			ghost.queue_free()
