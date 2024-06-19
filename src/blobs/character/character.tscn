@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://nux8qtt0bj2h"]
+[gd_scene load_steps=6 format=3 uid="uid://nux8qtt0bj2h"]
 
 [ext_resource type="Script" path="res://addons/multiplayer/classes/blob.gd" id="1_5tb0t"]
-[ext_resource type="Texture2D" uid="uid://ddfeyc0a2p2s3" path="res://icon.svg" id="2_ba450"]
 [ext_resource type="Texture2D" uid="uid://wwi6c2ggnsju" path="res://assets/player/tactical-walking1.png" id="2_vwut0"]
 [ext_resource type="Script" path="res://src/blobs/character/character.gd" id="3_gegqs"]
 [ext_resource type="Script" path="res://src/blobs/character/character_syncer.gd" id="4_wlpbf"]
@@ -21,29 +20,37 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_nk7pw")
 
 [node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(11, -4)
+position = Vector2(-5, -13)
 texture = ExtResource("2_vwut0")
 
 [node name="Character" type="Node" parent="."]
 script = ExtResource("3_gegqs")
 
-[node name="Glock" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(61, 2)
+[node name="Glock" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -85.0
+offset_right = 23.0
+offset_bottom = -62.0
 scale = Vector2(0.671875, 0.34375)
-texture = ExtResource("2_ba450")
+text = "Glock"
 
-[node name="Ak" type="Sprite2D" parent="."]
-position = Vector2(111, -5.99999)
+[node name="Ak" type="Label" parent="."]
+offset_left = 111.0
+offset_top = -5.99999
+offset_right = 111.0
+offset_bottom = -5.99999
 scale = Vector2(1, 0.429688)
-texture = ExtResource("2_ba450")
+text = "Ak"
 
-[node name="Knife" type="Sprite2D" parent="."]
+[node name="Knife" type="Label" parent="."]
 visible = false
-position = Vector2(70.5, -3)
+offset_left = 70.5
+offset_top = -3.0
+offset_right = 70.5
+offset_bottom = -3.0
 rotation = -0.445059
 scale = Vector2(0.539063, 0.0625)
-texture = ExtResource("2_ba450")
+text = "Knife"
 
 [node name="Syncer" type="Node" parent="."]
 script = ExtResource("4_wlpbf")

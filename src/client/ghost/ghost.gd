@@ -31,7 +31,7 @@ func _rollback(state: Dictionary) -> void:
 		target_position = state[blob.get_id()][0]
 
 
-func _simulate_physics_frame(inputs) -> void:
+func _simulate_physics_frame(inputs: Dictionary) -> void:
 	var axis := Vector2(
 		int(inputs["right"]) - int(inputs["left"]),
 		int(inputs["down"]) - int(inputs["up"])

@@ -58,13 +58,13 @@ func start_server(port: int=50301) -> void:
 
 
 func _on_Connected_to_server() -> void:
-	print("Successfully joined")
+	print("Successfully connected to server")
 	connection_started.emit()
 	_initialise_player.rpc_id(1, _join_info_for_server)
 
 
 func _on_Connection_failed() -> void:
-	pass
+	print("Failed to connect to server")
 
 
 func _on_Peer_connected(id: int) -> void:
@@ -185,7 +185,7 @@ func join_server(ip: String, port: int, join_info_for_server: Array) -> void:
 	if err != OK:
 		print("Couldn't join server, error code " + str(err))
 	else:
-		print("Successfully joined server with ip " + str(ip))
+		print("Network creation successful, attempting to join server with ip " + str(ip))
 		multiplayer.set_multiplayer_peer(network)
 		multiplayer.connected_to_server.connect(_on_Connected_to_server)
 		multiplayer.connection_failed.connect(_on_Connection_failed)
